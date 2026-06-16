@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Calculators — ToolsHome</title>
+<meta name="description" content="Free online calculators including BMI calculator, loan calculator and percentage calculator."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8f7ff;--surface:#ffffff;--border:#e8e4ff;--accent:#6c47ff;--accent2:#ff6b9d;--accent3:#00c9a7;--text:#1a1535;--muted:#7b7499;--sans:'Plus Jakarta Sans',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding-bottom:60px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(108,71,255,.06)}
+.logo{font-size:1.3rem;font-weight:800;text-decoration:none;color:var(--text)}
+.logo span{color:var(--accent)}
+.back{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;transition:color .2s}
+.back:hover{color:var(--accent)}
+.page-hero{background:linear-gradient(135deg,#1a1535,#2d1f6e);padding:48px 20px;text-align:center}
+.page-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:10px}
+.page-hero h1 span{background:linear-gradient(90deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-hero p{color:rgba(255,255,255,.6);font-size:.92rem}
+.ad-slot{border:2px dashed var(--border);border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;background:var(--surface)}
+.main{max-width:900px;margin:0 auto;padding:40px 20px}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:36px}
+.tool-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:28px 24px;text-decoration:none;color:var(--text);display:block;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.tool-card:hover{border-color:var(--c,var(--accent));transform:translateY(-4px);box-shadow:0 12px 32px rgba(108,71,255,.12)}
+.tc-icon{font-size:2.2rem;margin-bottom:14px;display:block}
+.tc-name{font-size:1rem;font-weight:800;margin-bottom:6px}
+.tc-desc{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.tc-btn{display:inline-flex;align-items:center;gap:6px;background:var(--c,var(--accent));color:#fff;padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:700}
+.tc-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+footer{background:#1a1535;color:rgba(255,255,255,.5);padding:24px;text-align:center;font-size:.78rem}
+footer a{color:rgba(255,255,255,.7);text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">Tools<span>Home</span></a>
+  <a class="back" href="index.html">← Home</a>
+</nav>
+<div class="page-hero">
+  <h1>🧮 <span>Calculators</span></h1>
+  <p>Smart tools for everyday math — health, finance and more</p>
+</div>
+<div class="main">
+  <div class="ad-slot" style="margin-bottom:32px">Advertisement — AdSense Code Here</div>
+  <div class="tools-grid">
+    <a class="tool-card" href="bmi-calculator.html" style="--c:#6c47ff">
+      <span class="tc-icon">⚖️</span>
+      <span class="tc-badge" style="background:#f0ebff;color:#6c47ff">Health</span>
+      <div class="tc-name">BMI Calculator</div>
+      <div class="tc-desc">Calculate your Body Mass Index. Find out if you're underweight, normal, overweight or obese based on your height and weight.</div>
+      <span class="tc-btn">Use Tool →</span>
+    </a>
+    <a class="tool-card" href="loan-calculator.html" style="--c:#00c9a7">
+      <span class="tc-icon">💰</span>
+      <span class="tc-badge" style="background:#e6faf7;color:#00c9a7">Finance</span>
+      <div class="tc-name">Loan Calculator</div>
+      <div class="tc-desc">Calculate your monthly loan payments, total interest paid and full amortization schedule for any loan amount.</div>
+      <span class="tc-btn" style="background:#00c9a7">Use Tool →</span>
+    </a>
+    <a class="tool-card" href="percentage-calculator.html" style="--c:#ff6b9d">
+      <span class="tc-icon">📊</span>
+      <span class="tc-badge" style="background:#fff0f5;color:#ff6b9d">Math</span>
+      <div class="tc-name">Percentage Calculator</div>
+      <div class="tc-desc">Calculate any percentage instantly. Find discounts, percentage increase or decrease, and what percent one number is of another.</div>
+      <span class="tc-btn" style="background:#ff6b9d">Use Tool →</span>
+    </a>
+  </div>
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+</div>
+<footer>
+  © 2025 <a href="index.html">ToolsHome.com</a> · <a href="privacy.html">Privacy Policy</a> · <a href="about.html">About</a>
+</footer>
+</body>
+</html>

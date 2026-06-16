@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Percentage Calculator — ToolsHome</title>
+<meta name="description" content="Free percentage calculator. Calculate percentages, discounts, increases and decreases instantly."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff5f8;--surface:#fff;--border:#ffd6e7;--accent:#ff6b9d;--accent2:#6c47ff;--text:#2d0a18;--muted:#8a5a6e;--sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding-bottom:60px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(255,107,157,.08)}
+.logo{font-size:1.2rem;font-weight:800;text-decoration:none;color:#1a1535}
+.logo span{color:#6c47ff}
+.back{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;transition:color .2s}
+.back:hover{color:var(--accent)}
+.main{max-width:560px;margin:0 auto;padding:28px 16px}
+.page-title{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.page-desc{color:var(--muted);font-size:.85rem;line-height:1.6;margin-bottom:20px}
+.ad-slot{border:2px dashed var(--border);border-radius:12px;padding:14px;text-align:center;color:var(--muted);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;width:100%}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
+.tab{padding:10px 8px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--sans);font-size:.78rem;font-weight:700;color:var(--muted);cursor:pointer;background:var(--surface);transition:all .2s;text-align:center}
+.tab:hover{border-color:var(--accent);color:var(--accent)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:24px 18px;margin-bottom:16px;box-shadow:0 4px 20px rgba(255,107,157,.07);width:100%}
+.panel{display:none}
+.panel.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.field{margin-bottom:16px}
+.field-label{font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:8px;display:block}
+input[type="number"]{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-family:var(--mono);font-size:1rem;outline:none;transition:border-color .2s;-moz-appearance:textfield;box-sizing:border-box}
+input[type="number"]:focus{border-color:var(--accent)}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.unit-label{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 10px;font-size:.82rem;font-weight:700;color:var(--muted);text-align:center}
+.btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-size:.93rem;font-weight:800;cursor:pointer;transition:all .2s;margin-top:4px}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.answer{display:none;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;padding:22px;text-align:center;margin-top:16px}
+.answer-label{font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600;margin-bottom:6px}
+.answer-value{font-family:var(--mono);font-size:2.4rem;font-weight:700;color:#fff;line-height:1;word-break:break-all}
+.answer-sub{font-size:.76rem;color:rgba(255,255,255,.7);margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:.75rem;padding-top:20px;border-top:1px solid var(--border);margin-top:10px}
+footer a{color:var(--accent);text-decoration:none;margin:0 6px}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">Tools<span>Home</span></a>
+  <a class="back" href="calculators.html">← Calculators</a>
+</nav>
+<div class="main">
+  <div class="page-title">📊 Percentage Calculator</div>
+  <p class="page-desc">Calculate any percentage instantly — discounts, increases, decreases, and more.</p>
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(0)">% of Number</button>
+    <button class="tab" onclick="switchTab(1)">X is what % of Y</button>
+    <button class="tab" onclick="switchTab(2)">% Change</button>
+    <button class="tab" onclick="switchTab(3)">Discount</button>
+  </div>
+
+  <div class="card">
+    <!-- PANEL 0 -->
+    <div class="panel active" id="panel0">
+      <div class="field">
+        <label class="field-label">What is % of a number?</label>
+        <div class="two-col" style="margin-bottom:8px">
+          <input type="number" id="p0a" placeholder="25"/>
+          <div class="unit-label">%</div>
+        </div>
+        <input type="number" id="p0b" placeholder="Enter number e.g. 200"/>
+      </div>
+      <button class="btn" onclick="doCalc0()">Calculate</button>
+      <div class="answer" id="ans0">
+        <div class="answer-label">Result</div>
+        <div class="answer-value" id="ans0-val">—</div>
+        <div class="answer-sub" id="ans0-sub"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 1 -->
+    <div class="panel" id="panel1">
+      <div class="field">
+        <label class="field-label">X is what percent of Y?</label>
+        <input type="number" id="p1a" placeholder="X — e.g. 50" style="margin-bottom:8px"/>
+        <input type="number" id="p1b" placeholder="Y — e.g. 200"/>
+      </div>
+      <button class="btn" onclick="doCalc1()">Calculate</button>
+      <div class="answer" id="ans1">
+        <div class="answer-label">Result</div>
+        <div class="answer-value" id="ans1-val">—</div>
+        <div class="answer-sub" id="ans1-sub"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 2 -->
+    <div class="panel" id="panel2">
+      <div class="field">
+        <label class="field-label">Original Value</label>
+        <input type="number" id="p2a" placeholder="e.g. 100" style="margin-bottom:8px"/>
+        <label class="field-label">New Value</label>
+        <input type="number" id="p2b" placeholder="e.g. 125"/>
+      </div>
+      <button class="btn" onclick="doCalc2()">Calculate Change</button>
+      <div class="answer" id="ans2">
+        <div class="answer-label">Percentage Change</div>
+        <div class="answer-value" id="ans2-val">—</div>
+        <div class="answer-sub" id="ans2-sub"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 3 -->
+    <div class="panel" id="panel3">
+      <div class="field">
+        <label class="field-label">Original Price ($)</label>
+        <input type="number" id="p3a" placeholder="e.g. 100" style="margin-bottom:8px"/>
+        <label class="field-label">Discount (%)</label>
+        <input type="number" id="p3b" placeholder="e.g. 20"/>
+      </div>
+      <button class="btn" onclick="doCalc3()">Calculate Discount</button>
+      <div class="answer" id="ans3">
+        <div class="answer-label">You Pay</div>
+        <div class="answer-value" id="ans3-val">—</div>
+        <div class="answer-sub" id="ans3-sub"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+  <footer>© 2026 <a href="index.html">ToolsHome.com</a> · <a href="privacy.html">Privacy Policy</a> · <a href="about.html">About</a></footer>
+</div>
+
+<script>
+function switchTab(idx) {
+  document.querySelectorAll('.panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+  document.querySelectorAll('.tab').forEach(function(b, i) { b.classList.toggle('active', i === idx); });
+}
+function showAnswer(id, val, sub) {
+  document.getElementById(id).style.display = 'block';
+  document.getElementById(id + '-val').textContent = val;
+  document.getElementById(id + '-sub').textContent = sub || '';
+}
+function doCalc0() {
+  var p = parseFloat(document.getElementById('p0a').value);
+  var n = parseFloat(document.getElementById('p0b').value);
+  if (isNaN(p) || isNaN(n)) { alert('Please enter both values'); return; }
+  var r = (p / 100) * n;
+  showAnswer('ans0', (r % 1 === 0 ? r : r.toFixed(2)).toString(), p + '% of ' + n + ' = ' + r.toFixed(2));
+}
+function doCalc1() {
+  var x = parseFloat(document.getElementById('p1a').value);
+  var y = parseFloat(document.getElementById('p1b').value);
+  if (isNaN(x) || isNaN(y) || y === 0) { alert('Please enter valid values'); return; }
+  var r = (x / y * 100).toFixed(2);
+  showAnswer('ans1', r + '%', x + ' is ' + r + '% of ' + y);
+}
+function doCalc2() {
+  var o = parseFloat(document.getElementById('p2a').value);
+  var n = parseFloat(document.getElementById('p2b').value);
+  if (isNaN(o) || isNaN(n) || o === 0) { alert('Please enter valid values'); return; }
+  var r = ((n - o) / Math.abs(o) * 100).toFixed(2);
+  showAnswer('ans2', (r >= 0 ? '+' : '') + r + '%', r >= 0 ? 'Increase of ' + r + '%' : 'Decrease of ' + Math.abs(r) + '%');
+}
+function doCalc3() {
+  var p = parseFloat(document.getElementById('p3a').value);
+  var d = parseFloat(document.getElementById('p3b').value);
+  if (isNaN(p) || isNaN(d)) { alert('Please enter both values'); return; }
+  var save = (p * d / 100).toFixed(2);
+  var pay = (p - save).toFixed(2);
+  showAnswer('ans3', '$' + pay, 'You save $' + save + ' (' + d + '% off $' + p + ')');
+}
+</script>
+</body>
+</html>

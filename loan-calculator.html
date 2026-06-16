@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Loan Calculator — ToolsHome</title>
+<meta name="description" content="Free loan calculator. Calculate monthly payments, total interest and full amortization schedule for any loan."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f0fdf9;--surface:#fff;--border:#b2f0e0;--accent:#00c9a7;--accent2:#6c47ff;--text:#0d2b22;--muted:#5a8577;--sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding-bottom:60px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(0,201,167,.08)}
+.logo{font-size:1.3rem;font-weight:800;text-decoration:none;color:#1a1535}
+.logo span{color:#6c47ff}
+.back{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;transition:color .2s}
+.back:hover{color:var(--accent)}
+.main{max-width:620px;margin:0 auto;padding:36px 20px}
+.page-title{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.page-desc{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:24px}
+.ad-slot{border:2px dashed var(--border);border-radius:14px;padding:16px;text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:28px 24px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,201,167,.08)}
+.field{margin-bottom:20px}
+.field-label{font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:8px;display:block}
+.input-wrap{display:flex;gap:8px;align-items:center}
+.currency{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:.9rem;font-weight:800;color:var(--accent)}
+input[type="number"]{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-family:var(--mono);font-size:1rem;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+input[type="number"]:focus{border-color:var(--accent)}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none}
+.unit-label{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:.82rem;font-weight:700;color:var(--muted)}
+input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--border);outline:none;cursor:pointer;margin-top:8px}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:3px solid #fff;box-shadow:0 0 0 2px var(--accent);cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:6px}
+.btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:15px;font-family:var(--sans);font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;margin-top:4px}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.result{display:none;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-hero{background:linear-gradient(135deg,#0d2b22,#0d4032);border-radius:16px;padding:28px;text-align:center;margin-bottom:14px}
+.monthly-label{font-size:.82rem;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:6px}
+.monthly-amount{font-family:var(--mono);font-size:3rem;font-weight:600;color:#fff;line-height:1}
+.monthly-currency{font-size:1.5rem;vertical-align:super}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.res-box{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.res-n{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--accent)}
+.res-l{font-size:.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+.interest-bar{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.bar-title{font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:10px}
+.bar-track{height:10px;border-radius:99px;background:var(--border);overflow:hidden;margin-bottom:6px}
+.bar-fill-p{height:100%;background:var(--accent);border-radius:99px;transition:width .5s}
+.bar-fill-i{height:100%;background:#ff6b9d;border-radius:99px;transition:width .5s}
+.bar-legend{display:flex;gap:14px;font-size:.72rem;font-weight:600}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.schedule-toggle{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;font-family:var(--sans);font-size:.82rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;margin-bottom:14px}
+.schedule-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.schedule-table{width:100%;border-collapse:collapse;font-size:.75rem;display:none}
+.schedule-table th{background:var(--bg);padding:8px;text-align:left;font-weight:700;color:var(--muted);border-bottom:1px solid var(--border)}
+.schedule-table td{padding:8px;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.schedule-table tr:last-child td{border-bottom:none}
+footer{text-align:center;color:var(--muted);font-size:.75rem;padding-top:20px;border-top:1px solid var(--border);margin-top:10px}
+footer a{color:var(--accent);text-decoration:none;margin:0 6px}
+@media(max-width:420px){.result-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">Tools<span>Home</span></a>
+  <a class="back" href="calculators.html">← Calculators</a>
+</nav>
+<div class="main">
+  <div class="page-title">💰 Loan Calculator</div>
+  <p class="page-desc">Enter your loan details to calculate monthly payments, total interest and full payment schedule.</p>
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+  <div class="card">
+    <div class="field">
+      <label class="field-label">Loan Amount</label>
+      <div class="input-wrap"><div class="currency">$</div><input type="number" id="loan-amt" placeholder="10000" min="100" oninput="calc()"/></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Annual Interest Rate — <span id="rate-val" style="color:var(--accent);font-family:var(--mono)">5%</span></label>
+      <input type="range" id="rate-sl" min="0.1" max="30" step="0.1" value="5" oninput="document.getElementById('rate-val').textContent=this.value+'%';calc()"/>
+      <div class="slider-labels"><span>0.1%</span><span>15%</span><span>30%</span></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Loan Term — <span id="term-val" style="color:var(--accent);font-family:var(--mono)">36 months</span></label>
+      <input type="range" id="term-sl" min="1" max="360" step="1" value="36" oninput="document.getElementById('term-val').textContent=this.value+' months';calc()"/>
+      <div class="slider-labels"><span>1 mo</span><span>15 yrs</span><span>30 yrs</span></div>
+    </div>
+    <button class="btn" onclick="calc()">💰 Calculate Payment</button>
+    <div class="result" id="result">
+      <div class="result-hero" style="margin-top:24px">
+        <div class="monthly-label">Monthly Payment</div>
+        <div class="monthly-amount"><span class="monthly-currency">$</span><span id="monthly">—</span></div>
+      </div>
+      <div class="result-grid">
+        <div class="res-box"><div class="res-n" id="total-pay">—</div><div class="res-l">Total Payment</div></div>
+        <div class="res-box"><div class="res-n" id="total-int" style="color:#ff6b9d">—</div><div class="res-l">Total Interest</div></div>
+        <div class="res-box"><div class="res-n" id="principal">—</div><div class="res-l">Principal</div></div>
+      </div>
+      <div class="interest-bar">
+        <div class="bar-title">Payment Breakdown</div>
+        <div style="display:flex;gap:4px;height:10px;border-radius:99px;overflow:hidden;margin-bottom:6px">
+          <div id="bar-p" style="background:#00c9a7;transition:flex .5s"></div>
+          <div id="bar-i" style="background:#ff6b9d;transition:flex .5s"></div>
+        </div>
+        <div class="bar-legend">
+          <div style="display:flex;align-items:center;gap:5px"><div class="leg-dot" style="background:#00c9a7"></div><span id="pct-p" style="color:var(--muted)">Principal —%</span></div>
+          <div style="display:flex;align-items:center;gap:5px"><div class="leg-dot" style="background:#ff6b9d"></div><span id="pct-i" style="color:var(--muted)">Interest —%</span></div>
+        </div>
+      </div>
+      <button class="schedule-toggle" onclick="toggleSchedule(this)">📋 Show Amortization Schedule</button>
+      <div id="schedule-wrap" style="overflow-x:auto">
+        <table class="schedule-table" id="schedule-table">
+          <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+          <tbody id="schedule-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+  <footer>© 2025 <a href="index.html">ToolsHome.com</a> · <a href="privacy.html">Privacy Policy</a></footer>
+</div>
+<script>
+function fmt(n){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function calc(){
+  const P=parseFloat(document.getElementById('loan-amt').value);
+  const r=parseFloat(document.getElementById('rate-sl').value)/100/12;
+  const n=parseInt(document.getElementById('term-sl').value);
+  if(!P||P<=0)return;
+  let M;
+  if(r===0){M=P/n}else{M=P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)}
+  const total=M*n;
+  const interest=total-P;
+  const pPct=Math.round(P/total*100);
+  const iPct=100-pPct;
+  document.getElementById('monthly').textContent=M.toFixed(2);
+  document.getElementById('total-pay').textContent=fmt(total);
+  document.getElementById('total-int').textContent=fmt(interest);
+  document.getElementById('principal').textContent=fmt(P);
+  document.getElementById('bar-p').style.flex=pPct;
+  document.getElementById('bar-i').style.flex=iPct;
+  document.getElementById('pct-p').textContent='Principal '+pPct+'%';
+  document.getElementById('pct-i').textContent='Interest '+iPct+'%';
+  // schedule
+  let bal=P;
+  const rows=[];
+  for(let i=1;i<=Math.min(n,360);i++){
+    const int=bal*r;
+    const prin=M-int;
+    bal=Math.max(0,bal-prin);
+    rows.push(`<tr><td>${i}</td><td>${fmt(M)}</td><td>${fmt(prin)}</td><td>${fmt(int)}</td><td>${fmt(bal)}</td></tr>`);
+  }
+  document.getElementById('schedule-body').innerHTML=rows.join('');
+  document.getElementById('result').style.display='block';
+}
+function toggleSchedule(btn){
+  const t=document.getElementById('schedule-table');
+  const show=t.style.display==='none'||t.style.display==='';
+  t.style.display=show?'table':'none';
+  btn.textContent=show?'📋 Hide Amortization Schedule':'📋 Show Amortization Schedule';
+}
+</script>
+</body>
+</html>

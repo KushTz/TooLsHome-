@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ToolsHome — Free Online Calculators, Converters & Color Tools</title>
+<meta name="description" content="Free online tools including BMI calculator, loan calculator, currency converter, unit converter, time zone converter and color picker."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8f7ff;--surface:#ffffff;--border:#e8e4ff;--accent:#6c47ff;--accent2:#ff6b9d;--accent3:#00c9a7;--text:#1a1535;--muted:#7b7499;--sans:'Plus Jakarta Sans',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(108,71,255,.06)}
+.logo{font-size:1.3rem;font-weight:800;text-decoration:none;color:var(--text);letter-spacing:-.03em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:6px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:8px;transition:all .2s}
+.nav-links a:hover{color:var(--accent);background:rgba(108,71,255,.06)}
+.hero{background:linear-gradient(135deg,#1a1535 0%,#2d1f6e 50%,#1a1535 100%);padding:80px 20px;text-align:center;position:relative;overflow:hidden}
+.hero-inner{max-width:680px;margin:0 auto;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,71,255,.2);border:1px solid rgba(108,71,255,.4);border-radius:30px;padding:6px 18px;font-size:.75rem;font-weight:700;color:#a78bfa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#fff;margin-bottom:16px}
+.hero h1 span{background:linear-gradient(90deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:rgba(255,255,255,.6);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#5538e0;transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.btn-ghost:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.ad-slot{border:2px dashed var(--border);border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;background:var(--surface)}
+.main{max-width:1000px;margin:0 auto;padding:48px 20px 60px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px}
+.stat{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(108,71,255,.04)}
+.stat-n{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-l{font-size:.72rem;font-weight:600;color:var(--muted);margin-top:4px}
+.cat-section{margin-bottom:48px}
+.cat-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.cat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.cat-title{font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+.cat-desc{font-size:.8rem;color:var(--muted);margin-top:2px}
+.cat-link{margin-left:auto;color:var(--accent);text-decoration:none;font-size:.82rem;font-weight:700;white-space:nowrap}
+.cat-link:hover{text-decoration:underline}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tool-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:22px 20px;text-decoration:none;color:var(--text);display:block;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.tool-card:hover{border-color:var(--c,var(--accent));transform:translateY(-3px);box-shadow:0 8px 24px rgba(108,71,255,.12)}
+.tc-icon{font-size:1.8rem;margin-bottom:12px;display:block}
+.tc-name{font-size:.95rem;font-weight:700;margin-bottom:5px}
+.tc-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+.tc-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:6px;margin-top:8px;text-transform:uppercase;letter-spacing:.05em}
+footer{background:var(--text);color:rgba(255,255,255,.5);padding:32px 24px;text-align:center;font-size:.78rem}
+footer a{color:rgba(255,255,255,.7);text-decoration:none;margin:0 8px}
+footer a:hover{color:#fff}
+.footer-logo{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:10px}
+.footer-logo span{color:#a78bfa}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.nav-links{display:none}.hero-btns{flex-direction:column;align-items:center}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">Tools<span>Home</span></a>
+  <div class="nav-links">
+    <a href="calculators.html">🧮 Calculators</a>
+    <a href="converters.html">🔄 Converters</a>
+    <a href="color-picker.html">🎨 Color Tools</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ 100% Free · No Login Required</div>
+    <h1>Your Home For<br/><span>Free Online Tools</span></h1>
+    <p class="hero-sub">Calculators, converters, and color tools — all in one place. Fast, private, and completely free.</p>
+    <div class="hero-btns">
+      <a class="btn-hero btn-primary" href="calculators.html">🧮 Try Calculators</a>
+      <a class="btn-hero btn-ghost" href="converters.html">🔄 Try Converters</a>
+    </div>
+  </div>
+</div>
+<div class="main">
+  <div class="ad-slot" style="margin-bottom:36px">Advertisement — AdSense Code Here</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">7+</div><div class="stat-l">Free Tools</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Categories</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Data Stored</div></div>
+    <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Free Uses</div></div>
+  </div>
+  <div class="cat-section">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#f0ebff">🧮</div>
+      <div><div class="cat-title">Calculators</div><div class="cat-desc">Smart tools for everyday math</div></div>
+      <a class="cat-link" href="calculators.html">View all →</a>
+    </div>
+    <div class="tools-grid">
+      <a class="tool-card" href="bmi-calculator.html" style="--c:#6c47ff"><span class="tc-icon">⚖️</span><div class="tc-name">BMI Calculator</div><div class="tc-desc">Calculate your Body Mass Index and find your healthy weight range.</div><span class="tc-badge" style="background:#f0ebff;color:#6c47ff">Health</span></a>
+      <a class="tool-card" href="loan-calculator.html" style="--c:#00c9a7"><span class="tc-icon">💰</span><div class="tc-name">Loan Calculator</div><div class="tc-desc">Calculate monthly payments, total interest and amortization schedule.</div><span class="tc-badge" style="background:#e6faf7;color:#00c9a7">Finance</span></a>
+      <a class="tool-card" href="percentage-calculator.html" style="--c:#ff6b9d"><span class="tc-icon">📊</span><div class="tc-name">Percentage Calculator</div><div class="tc-desc">Calculate percentages, discounts, increases and decreases instantly.</div><span class="tc-badge" style="background:#fff0f5;color:#ff6b9d">Math</span></a>
+    </div>
+  </div>
+  <div class="ad-slot" style="margin-bottom:36px">Advertisement — AdSense Code Here</div>
+  <div class="cat-section">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#e6faf7">🔄</div>
+      <div><div class="cat-title">Converters</div><div class="cat-desc">Convert anything instantly</div></div>
+      <a class="cat-link" href="converters.html">View all →</a>
+    </div>
+    <div class="tools-grid">
+      <a class="tool-card" href="converters.html#currency" style="--c:#00c9a7"><span class="tc-icon">💱</span><div class="tc-name">Currency Converter</div><div class="tc-desc">Convert between world currencies with live exchange rates.</div><span class="tc-badge" style="background:#e6faf7;color:#00c9a7">Finance</span></a>
+      <a class="tool-card" href="converters.html#units" style="--c:#6c47ff"><span class="tc-icon">📏</span><div class="tc-name">Unit Converter</div><div class="tc-desc">Convert length, weight, temperature, speed and more.</div><span class="tc-badge" style="background:#f0ebff;color:#6c47ff">Science</span></a>
+      <a class="tool-card" href="converters.html#timezone" style="--c:#ff6b9d"><span class="tc-icon">🌍</span><div class="tc-name">Time Zone Converter</div><div class="tc-desc">Convert time between any two cities worldwide.</div><span class="tc-badge" style="background:#fff0f5;color:#ff6b9d">Time</span></a>
+    </div>
+  </div>
+  <div class="cat-section">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#fff0f5">🎨</div>
+      <div><div class="cat-title">Color Tools</div><div class="cat-desc">Pick, convert and explore colors</div></div>
+      <a class="cat-link" href="color-picker.html">View all →</a>
+    </div>
+    <div class="tools-grid">
+      <a class="tool-card" href="color-picker.html" style="--c:#ff6b9d"><span class="tc-icon">🎨</span><div class="tc-name">Color Picker</div><div class="tc-desc">Pick any color and get HEX, RGB, HSL codes instantly. Perfect for designers.</div><span class="tc-badge" style="background:#fff0f5;color:#ff6b9d">Design</span></a>
+    </div>
+  </div>
+  <div class="ad-slot">Advertisement — AdSense Code Here</div>
+</div>
+<footer>
+  <div class="footer-logo">Tools<span>Home</span></div>
+  <div style="margin-bottom:10px">Fast, free tools for everyone · toolshome.com</div>
+  <div><a href="privacy.html">Privacy Policy</a><a href="about.html">About</a><a href="calculators.html">Calculators</a><a href="converters.html">Converters</a><a href="color-picker.html">Color Tools</a></div>
+  <div style="margin-top:14px">© 2025 ToolsHome.com — All tools are free to use</div>
+</footer>
+</body>
+</html>
