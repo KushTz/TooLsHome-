@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QR Code Generator & Scanner — ToolsHome</title>
+<meta name="description" content="Free online QR Code generator and scanner. Create downloadable QR codes for URL, Text, Email, or Phone numbers, and scan QR codes instantly."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<!-- QR Code Generator & Scanner Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8f7ff;--surface:#ffffff;--border:#e8e4ff;--accent:#6c47ff;--accent2:#ff6b9d;--accent3:#00c9a7;--text:#1a1535;--muted:#7b7499;--sans:'Plus Jakarta Sans',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(108,71,255,.06)}
+.logo{font-size:1.3rem;font-weight:800;text-decoration:none;color:var(--text);letter-spacing:-.03em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:6px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:8px;transition:all .2s}
+.nav-links a:hover{color:var(--accent);background:rgba(108,71,255,.06)}
+.main{max-width:800px;margin:40px auto;padding:0 20px 60px}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(108,71,255,.06)}
+.page-title{font-size:1.8rem;font-weight:800;margin-bottom:8px;letter-spacing:-.03em}
+.page-desc{color:var(--muted);font-size:.9rem;margin-bottom:28px}
+
+/* Main Mode Tabs */
+.mode-tabs{display:flex;gap:10px;margin-bottom:24px;border-bottom:2px solid var(--border);padding-bottom:12px}
+.mode-btn{padding:10px 20px;border:none;border-radius:10px;background:none;color:var(--muted);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s}
+.mode-btn.active{background:var(--accent);color:#fff}
+
+/* Input Type Selectors */
+.type-selector{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px}
+.type-btn{padding:12px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.type-btn.active{border-color:var(--accent);background:rgba(108,71,255,.08);color:var(--accent)}
+
+.input-group{margin-bottom:24px}
+.input-group label{display:block;font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+.input-field{width:100%;padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s}
+.input-field:focus{border-color:var(--accent)}
+
+.qr-preview-area{text-align:center;background:#fff;border:1.5px dashed var(--border);border-radius:16px;padding:30px;margin-top:24px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#qrcode img, #qrcode canvas{margin:0 auto;border-radius:8px}
+
+.btn-submit{background:var(--accent);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-weight:700;font-size:.92rem;cursor:pointer;width:100%;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:hover{background:#5538e0;transform:translateY(-1px)}
+.btn-download{background:var(--accent3);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:20px;display:none;align-items:center;gap:6px}
+.btn-download:hover{opacity:.9}
+
+/* Scanner Styles */
+.scanner-box{display:none;text-align:center}
+#reader{width:100%;max-width:500px;margin:0 auto;border-radius:12px;overflow:hidden}
+.scan-result{margin-top:20px;padding:16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;word-break:break-all;font-weight:600;display:none}
+
+footer{background:var(--text);color:rgba(255,255,255,.5);padding:32px 24px;text-align:center;font-size:.78rem;margin-top:60px}
+footer a{color:rgba(255,255,255,.7);text-decoration:none;margin:0 8px}
+footer a:hover{color:#fff}
+.footer-logo{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:10px}
+.footer-logo span{color:#a78bfa}
+@media(max-width:600px){.nav-links{display:none}.type-selector{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Tools<span>Home</span></a>
+  <div class="nav-links">
+    <a href="calculators.html">🧮 Calculators</a>
+    <a href="converters.html">🔄 Converters</a>
+    <a href="color-picker.html">🎨 Color Tools</a>
+    <a href="qr-code-generator.html" style="color:var(--accent)">📱 QR Tool</a>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="card">
+    <h1 class="page-title">📱 QR Code Generator & Scanner</h1>
+    <p class="page-desc">Create custom downloadable QR Codes for URLs, Text, Email, or Phone numbers, or scan existing QR codes instantly.</p>
+
+    <!-- Main Tabs -->
+    <div class="mode-tabs">
+      <button class="mode-btn active" onclick="switchMode('generate', this)">⚡ Generate QR Code</button>
+      <button class="mode-btn" onclick="switchMode('scan', this)">📷 Scan QR Code</button>
+    </div>
+
+    <!-- GENERATOR SECTION -->
+    <div id="generatorSection">
+      <div class="type-selector">
+        <button class="type-btn active" onclick="selectType('url', this)">🔗 URL / Link</button>
+        <button class="type-btn" onclick="selectType('text', this)">📝 Text</button>
+        <button class="type-btn" onclick="selectType('email', this)">✉️ Email</button>
+        <button class="type-btn" onclick="selectType('phone', this)">📞 Phone</button>
+      </div>
+
+      <div class="input-group">
+        <label id="inputLabel" for="qrData">Enter Website URL:</label>
+        <input type="text" id="qrData" class="input-field" placeholder="https://example.com" value="https://toolshome.cc"/>
+      </div>
+
+      <button class="btn-submit" onclick="generateQRCode()">⚡ Generate QR Code</button>
+
+      <div class="qr-preview-area">
+        <div id="qrcode"></div>
+        <button id="downloadBtn" class="btn-download" onclick="downloadQRCode()">💾 Download QR Code Image</button>
+      </div>
+    </div>
+
+    <!-- SCANNER SECTION -->
+    <div id="scannerSection" class="scanner-box">
+      <div class="input-group">
+        <label>Upload an Image or Use Camera to Scan:</label>
+        <input type="file" id="qrInputFile" accept="image/*" class="input-field" onchange="scanImageFile(this)" style="margin-bottom: 16px;"/>
+      </div>
+      
+      <button class="btn-submit" style="margin-bottom: 20px;" onclick="startCameraScanner()">🎥 Start Camera Scanner</button>
+      
+      <div id="reader"></div>
+      <div id="scanResult" class="scan-result"></div>
+    </div>
+
+  
+  </div>
+  
+  
+
+   </div>
+
+    <div class="ad-slot">Advertisement — AdSense Code Here</div>
+<footer>
+  <div class="footer-logo">Tools<span>Home</span></div>
+  <div style="margin-bottom:10px">Fast, free tools | toolshome.cc</div>
+  <div>
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="about.html">About</a> | 
+    <a href="calculators.html">Calculators</a>| 
+    <a href="converters.html">Converters</a> | 
+    <a href="color-picker.html">Color Tools</a>|
+    <a href="qr-code-generator.html">QR Code Generator</a>
+  </div>
+  <div style="margin-top:14px">© 2026 ToolsHome.cc</div>
+</footer>
+
+<script>
+let currentType = 'url';
+let qrCodeInstance = null;
+let html5QrcodeScanner = null;
+
+function switchMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (mode === 'generate') {
+    document.getElementById('generatorSection').style.display = 'block';
+    document.getElementById('scannerSection').style.display = 'none';
+    stopScanner();
+  } else {
+    document.getElementById('generatorSection').style.display = 'none';
+    document.getElementById('scannerSection').style.display = 'block';
+  }
+}
+
+function selectType(type, element) {
+  currentType = type;
+  document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+  element.classList.add('active');
+
+  const label = document.getElementById('inputLabel');
+  const input = document.getElementById('qrData');
+
+  if (type === 'url') {
+    label.innerText = 'Enter Website URL:';
+    input.placeholder = 'https://example.com';
+  } else if (type === 'text') {
+    label.innerText = 'Enter Your Text:';
+    input.placeholder = 'Type anything here...';
+  } else if (type === 'email') {
+    label.innerText = 'Enter Email Address:';
+    input.placeholder = 'name@example.com';
+  } else if (type === 'phone') {
+    label.innerText = 'Enter Phone Number:';
+    input.placeholder = '+1234567890';
+  }
+}
+
+function getFormattedData() {
+  const val = document.getElementById('qrData').value.trim();
+  if (!val) return '';
+
+  if (currentType === 'email') return `mailto:${val}`;
+  if (currentType === 'phone') return `tel:${val}`;
+  return val;
+}
+
+function generateQRCode() {
+  const qrContainer = document.getElementById('qrcode');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const rawData = getFormattedData();
+
+  if (!rawData) {
+    alert('Please enter data first!');
+    return;
+  }
+
+  qrContainer.innerHTML = '';
+
+  qrCodeInstance = new QRCode(qrContainer, {
+    text: rawData,
+    width: 180,
+    height: 180,
+    colorDark : "#1a1535",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+  });
+
+  downloadBtn.style.display = "inline-flex";
+}
+
+function downloadQRCode() {
+  const qrContainer = document.getElementById('qrcode');
+  const img = qrContainer.querySelector('img');
+  const canvas = qrContainer.querySelector('canvas');
+
+  let imageSrc = '';
+  if (img && img.src) {
+    imageSrc = img.src;
+  } else if (canvas) {
+    imageSrc = canvas.toDataURL('image/png');
+  }
+
+  if (imageSrc) {
+    const link = document.createElement('a');
+    link.href = imageSrc;
+    link.download = 'qrcode-toolshome.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    alert('Failed to process QR image for download.');
+  }
+}
+
+// Scanning via Image Upload
+function scanImageFile(input) {
+  if (input.files.length === 0) return;
+  
+  const imageFile = input.files[0];
+  const html5QrCode = new Html5Qrcode("reader");
+
+  html5QrCode.scanFile(imageFile, true)
+    .then(decodedText => {
+      displayScanResult(decodedText);
+    })
+    .catch(err => {
+      displayScanResult("Could not read QR Code from image. Make sure the image contains a clear QR code.");
+    });
+}
+
+// Scanning via Camera
+function startCameraScanner() {
+  stopScanner();
+  const html5QrCode = new Html5Qrcode("reader");
+  
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: { width: 250, height: 250 } },
+    (decodedText) => {
+      displayScanResult(decodedText);
+      html5QrCode.stop();
+    },
+    (errorMessage) => {
+      // frame parse errors ignored
+    }
+  ).catch(err => {
+    alert("Camera permission denied or camera not found.");
+  });
+}
+
+function stopScanner() {
+  document.getElementById('reader').innerHTML = '';
+}
+
+function displayScanResult(text) {
+  const resultDiv = document.getElementById('scanResult');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `<strong>Scanned Result:</strong><br/> ${text}`;
+}
+
+// Initial auto-generation on load
+window.onload = generateQRCode;
+</script>
+
+</body>
+</html>
