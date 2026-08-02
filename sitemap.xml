@@ -5,8 +5,41 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://toolshome.cc/about.html</loc>
+    <loc>https://toolshome.cc/calculators.html</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://toolshome.cc/bmi-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/loan-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/percentage-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/color-picker.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/converters.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/qr-code-generator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/about.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://toolshome.cc/privacy.html</loc>
+    <priority>0.3</priority>
+  </url>
 </urlset>
+
       
